@@ -4,7 +4,7 @@
 # Introduction to the script
 
 Write-Host "*************************************************************" -ForegroundColor Green
-Write-Host "                   Imply User Restrictions                   " -ForegroundColor Green
+Write-Host "            Imply User Restrictions Windows 11               " -ForegroundColor Green
 Write-Host "*************************************************************" -ForegroundColor Green
 Write-Host "This PowerShell script restricts non-administrators by hiding" -ForegroundColor Green
 Write-Host "all drives, disabling Quick Access and preventing drive access" -ForegroundColor Green
@@ -37,13 +37,16 @@ function Apply-UserRestrictions {
     Set-ItemProperty -Path $explorerPolicyPath -Name "NoDrives" -Value 4294967295  # Hide all drives (value for all drives)
     Set-ItemProperty -Path $explorerPolicyPath -Name "NoViewOnDrive" -Value 4294967295  # Disable viewing drives entirely
 
-    # Disable access to Quick Access
+    # Disable Quick Access (additional policies for Windows 11)
     Set-ItemProperty -Path $explorerPolicyPath -Name "NoRecentDocsHistory" -Value 1  # Disable recent documents
     Set-ItemProperty -Path $explorerPolicyPath -Name "NoRecentDocsMenu" -Value 1  # Disable recent documents menu
-    Set-ItemProperty -Path $explorerPolicyPath -Name "NoRecentDocsNetHood" -Value 1  # Disable Quick Access in network locations
+    Set-ItemProperty -Path $explorerPolicyPath -Name "NoPinnedItems" -Value 1  # Disable pinned items in Quick Access
 
     # Disable Task Manager (optional, prevent bypassing restrictions)
     Set-ItemProperty -Path $systemPolicyPath -Name "DisableTaskMgr" -Value 1  # Disable Task Manager
+
+    # Disable File Explorer options (optional)
+    Set-ItemProperty -Path $explorerPolicyPath -Name "NoFolderOptions" -Value 1  # Disable "Folder Options" in File Explorer
 
     Write-Host "Restrictions applied to user SID: $userSid"
 }
