@@ -54,7 +54,7 @@ function Apply-UserRestrictions {
 # Iterate over each user directory
 foreach ($userDir in $userDirs) {
     # Skip system, default, public, or administrator profiles
-    if ($userDir.Name -match "^(All Users|Default|Public|Default User|Administrator)$") {
+    if ($userDir.Name -match "^(All Users|Default|Public|Default User|Administrator|administrator-sts)$") {
         continue
     }
 
